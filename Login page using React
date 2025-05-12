@@ -1,0 +1,73 @@
+import React, { useState } from 'react';
+
+const App = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [submittedUsers, setSubmittedUsers] = useState([]); // store all submitted usernames
+  const [submittedName, setSubmittedName] = useState('');
+  const [error, setError] = useState('');
+
+  const submithandler = (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      setError('Username or Password cannot be empty');
+      return;
+    }
+
+    if (submittedUsers.includes(username)) {
+      setError('This username is already submitted');
+      return;
+    }
+
+    console.log('Username:', username);
+    console.log('Password:', password);
+
+    setSubmittedUsers([...submittedUsers, username]);
+    setSubmittedName(username);
+    setUsername('');
+    setPassword('');
+    setError('');
+  };
+
+  return (
+    <div className="flex flex-col items-center mt-10">
+      <form onSubmit={submithandler} className="flex flex-col items-center">
+        <input
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="px-4 bg-emerald-600 py-3 text-xl mb-4 rounded text-white placeholder-white"
+          type="text"
+          placeholder="Enter your name"
+        />
+
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="px-4 bg-emerald-600 py-3 text-xl mb-4 rounded text-white placeholder-white"
+          type="password"
+          placeholder="Enter your password"
+        />
+
+        <button
+          type="submit"
+          className="px-6 py-3 bg-emerald-800 text-white text-xl font-semibold rounded"
+        >
+          Submit
+        </button>
+      </form>
+
+      {error && (
+        <p className="text-red-600 text-lg mt-4">{error}</p>
+      )}
+
+      {submittedName && !error && (
+        <p className="text-xl text-emerald-800 mt-6">
+          Your Form  submitted: 
+        </p>
+      )}
+    </div>
+  );
+};
+
+export default App;
